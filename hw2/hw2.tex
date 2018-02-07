@@ -1,0 +1,124 @@
+% astr5400/hw2/hw2.tex
+%
+% Omkar H. Ramachandran
+% omkar.ramachandran@colorado.edu
+%
+% LaTeX writeup of HW2
+%
+
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1.5in,bmargin=1.5in,lmargin=1.5in,rmargin=1.5in}
+\usepackage{babel}
+\newcommand{\GeV}{\,{\rm GeV}}
+\usepackage{graphicx}
+\graphicspath{{./plots/}}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+
+\lstdefinestyle{custompy}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  frame=L,
+  xleftmargin=\parindent,
+  language=Python,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green},
+  commentstyle=\itshape\color{red},
+  identifierstyle=\color{black},
+  stringstyle=\color{blue},
+}
+
+
+\lstset{escapechar=@,style=custompy}
+
+\begin{document}
+\title{ASTR 5400 : Homework 2}
+\author{Omkar H. Ramachandran}
+
+\maketitle
+
+\section{Entropy always increases, right? (Spoiler: It does)}
+Starting with the second law of thermodynamics we obtain the following 
+equation for entropy over time:
+\begin{equation}
+	\frac{\partial s}{\partial t}+u.\nabla s=-\frac{1}{\rho T}
+	\nabla . Q
+	\label{eq:entropy}
+\end{equation}
+We are also given that the system is as follows:
+\begin{equation}
+	\intop \nabla . QdV = \oint Q.\hat{n}dS = 0
+	\label{eq:bc}
+\end{equation}
+
+\subsection{Adding 0 on both sides}
+Starting with the continuity equation,
+\begin{equation}
+	\frac{\partial \rho}{\partial t} + \nabla . (\rho u) = 0
+	\label{eq:continuity}
+\end{equation}
+Adding $s\times$(\ref{eq:continuity}) to (\ref{eq:entropy}) (which is valid
+since $s(t)>0$ $\forall t$), we obtain the following:
+\begin{equation}
+	\frac{\partial \rho s}{\partial t}+\nabla.(\rho us)=-\frac{1}{\rho T}
+	\nabla .Q 
+	\label{eq:morphed}
+\end{equation}
+The behavior of $s$ as a function of $t$ is outlined in the following 
+sections:
+\subsection{$Q = -\kappa \nabla T$}
+Using some vector gymnastics, we have the following:
+$$
+	\frac{1}{T}\nabla.(\kappa\nabla T) = 
+	\nabla . (\frac{1}{T}\kappa \nabla T) -
+	\kappa \nabla T.\nabla\left(\frac{1}{T}\right)
+$$
+\begin{equation}
+	= \nabla . (\frac{1}{T}\kappa \nabla T) + 
+	\kappa \frac{\nabla T.\nabla T}{T^{2}}
+	= \nabla . (\frac{1}{T}\kappa \nabla T) + 
+	\kappa \frac{|\nabla T|^{2}}{T^{2}}
+	\label{eq:urghvectors_final}
+\end{equation}
+Now, we can substitute (\ref{eq:urghvectors_final}) in place of the RHS in
+\ref{eq:morphed} to obtain the following:
+$$
+	\frac{\partial \rho s}{\partial t}+\nabla.(\rho us)=\left(
+	\nabla . (\frac{1}{T}\kappa \nabla T) + 
+	\kappa \frac{|\nabla T|^{2}}{T^{2}}
+	\right)
+$$
+Rearranging, we have:
+\begin{equation}
+	\frac{\partial \rho s}{\partial t}=
+	-\nabla.\left(\rho us - \frac{1}{T}\kappa \nabla T \right) 
+	+\kappa \frac{|\nabla T|^{2}}{T^{2}}
+	\label{eq:almost}
+\end{equation}
+Integrating both sides of (\ref{eq:almost}), we have
+$$
+	\frac{\partial}{\partial t} \intop \rho sdV=
+	-\intop \nabla.\left(\rho us - \frac{1}{T}\kappa \nabla T \right) dV
+	+\intop\kappa \frac{|\nabla T|^{2}}{T^{2}}dV
+$$
+We know from the boundary conditions that $\intop \nabla.QdV = 0$. Thus,
+if there's no heat flux out of the system, then the fluid flux 
+$\nabla \rho us$ has to compensate, implying that the middle term in the
+volume integral vanishes.
+Thus, we are left with the following:
+\begin{equation}
+	\frac{\partial}{\partial t} \intop \rho sdV=
+	\intop\kappa \frac{|\nabla T|^{2}}{T^{2}}dV
+	\label{eq:done}
+\end{equation}
+Obviously, $\frac{|\nabla T|^{2}}{T^{2}} \geq 0$ and $\kappa >0$ by 
+definition. As a result, that volume integral has to be positive, implying
+that the entropy has to monotonically increase with time.
+\subsection{$Q=-\kappa \nabla s$}
+
+\end{document}
